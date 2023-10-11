@@ -83,10 +83,23 @@ def generate_markdown():
                 f.write(file.code + '-->' + file_list[dependency].code + ' ; ')
             f.write('\n')
 
+def init_print():
+    print("Welcome to use Cx330_502's cpp dependency program, the result will be saved in cpp_dependency.md and "
+          "plugin mermaid is needed to preview the result.")
+    print("    ___  _  _  ___  ___   ___       ___   ___  ___  ")
+    print("   / __)( \\/ )(__ )(__ ) / _ \\     | __) / _ \\(__ \\ ")
+    print("  ( (__  )  (  (_ \\ (_ \\( (_) )___ |__ \\( (_) )/ _/ ")
+    print("   \\___)(_/\\_)(___/(___/ \\___/(___)(___/ \\___/(____)")
+    print()
+
+def end_print():
+    print("The result has been saved in cpp_dependency.md, please use mermaid plugin to preview the result.")
 
 if __name__ == '__main__':
+    init_print()
     file_list = {}
     data = {"num": 1}
     traverse_dir(1, './')
     traverse_dir(2, './')
     generate_markdown()
+    end_print()
