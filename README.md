@@ -1,2 +1,6 @@
 # Tools
- little tools created by Cx330_502
+这里存了一些 Cx330_502 写的 Python 脚本工具，所有的工具都在不同分支中。
+
+`schedule` 分支：一个用于排班的小工具~
+
+`cpp_dependency` 分支：对cpp头文件依赖进行分析的脚本，妈妈再也不用担心我的头文件循环引用啦
