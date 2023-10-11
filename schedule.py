@@ -1,7 +1,7 @@
+import os
 import time
 from datetime import datetime
 from openpyxl import *
-from models import *
 from itertools import combinations
 import xlwt
 
@@ -133,7 +133,7 @@ class Printer:
             for i in range(len(people_0[j].sche_time)):
                 worksheet.write(j + 1, i + 3, people_0[j].sche_time[i], style)
         name = "TempOutput" + str(datetime.now().strftime("%H%M%S")) + ".xlsx"
-        workbook0.save(name)
+        workbook0.save(os.path.join(output_root, name))
 
         print("The intermediate version is now exported to " + name + " , so check it out and keep waiting!")
         print()
@@ -145,8 +145,8 @@ class Printer:
         time.sleep(0.2)
         print("Are you sure to wait for the process to complete?")
         time.sleep(0.2)
-        print("If you choose to wait, the program will continue to run "+progress_name + ". And if you choose not to "
-              "wait the program will run next process, which may make the schedule not that perfect.")
+        print("If you choose to wait, the program will continue to run " + progress_name + ". And if you choose not to "
+                                                                                           "wait the program will run next process, which may make the schedule not that perfect.")
         time.sleep(0.2)
         while True:
             temp = input("Please enter Y to continue, or enter N to skip : ")
@@ -157,7 +157,6 @@ class Printer:
             elif temp == "Y" or temp == "y":
                 print()
                 return
-
 
 
 class People:
@@ -486,10 +485,40 @@ class Sche_Time:
             worksheet.write(j + 1, 2, len(people_0[j].sche_time), style)
             for i in range(len(people_0[j].sche_time)):
                 worksheet.write(j + 1, i + 3, people_0[j].sche_time[i], style)
-        workbook.save("output.xlsx")
+        workbook.save(os.path.join(output_root, "output.xlsx"))
+
+
+def input_model():
+    print("Notice that the input file must be named 'sche.xlsx' ")
+    print("Please input the model you want to use:")
+    print("1. input and output both in current directory")
+    print("2. './data/schedule' for input and './output/schedule' for output")
+    print("3. Customizing the working directory")
+    while True:
+        model = input("Please input 1 or 2 or 3: ")
+        model = int(model)
+        if model == 1:
+            input_root0 = "./"
+            output_root0 = "./"
+            break
+        elif model == 2:
+            input_root0 = "./data/schedule"
+            output_root0 = "./output/schedule"
+            break
+        elif model == 3:
+            input_root0 = input("Please input the input directory: ")
+            output_root0 = input("Please input the output directory: ")
+            break
+    os.makedirs(input_root0, exist_ok=True)
+    os.makedirs(output_root0, exist_ok=True)
+    return input_root0, output_root0
 
 
 if __name__ == '__main__':
+    printer = Printer()
+    printer.init_print()
+    input_root, output_root = input_model()
+    
     times = []
     dates = []
     people_1 = {}
@@ -506,7 +535,7 @@ if __name__ == '__main__':
     alignment.vert = xlwt.Alignment.VERT_CENTER
     style.alignment = alignment
 
-    wb = load_workbook('sche.xlsx')
+    wb = load_workbook(os.path.join(input_root, "input.xlsx"))  # 打开excel文件
     sheet_names = wb.sheetnames  # 获取工作表名
     if len(sheet_names) != 2:
         print("工作表数量不对")
@@ -514,10 +543,8 @@ if __name__ == '__main__':
     sheet1 = wb[sheet_names[0]]  # 助理工作表
     sheet2 = wb[sheet_names[1]]  # 导员工作表
 
-    printer = Printer()
+    
     sche_time = Sche_Time(printer)
-
-    printer.init_print()
 
     printer.update_time()
     printer.print_progress("Preparations", 0)
