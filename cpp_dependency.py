@@ -101,7 +101,7 @@ def end_print():
 
 def input_model():
     print("Please input the model you want to use:")
-    print("1. current directory")
+    print("1. input and output both in current directory")
     print("2. './data/cpp_dependency' for input and './output/cpp_dependency' for output")
     print("3. Customizing the working directory")
     while True:
