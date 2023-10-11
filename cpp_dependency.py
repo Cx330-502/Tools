@@ -60,8 +60,8 @@ def traverse_dir(i, root_dir):
                     handle_file2(file, root)
 
 
-def generate_markdown():
-    with open('cpp_dependency.md', 'w') as f:
+def generate_markdown(output):
+    with open(os.path.join(output, 'cpp_dependency.md'), 'w') as f:
         f.write('# C++ Dependency\n')
         f.write('```mermaid\n')
         f.write('graph LR\n')
@@ -82,6 +82,8 @@ def generate_markdown():
             for dependency in file.dependencies:
                 f.write(file.code + '-->' + file_list[dependency].code + ' ; ')
             f.write('\n')
+        f.write("```")
+
 
 def init_print():
     print("Welcome to use Cx330_502's cpp dependency program, the result will be saved in cpp_dependency.md and "
@@ -92,14 +94,42 @@ def init_print():
     print("   \\___)(_/\\_)(___/(___/ \\___/(___)(___/ \\___/(____)")
     print()
 
+
 def end_print():
     print("The result has been saved in cpp_dependency.md, please use mermaid plugin to preview the result.")
 
+
+def input_model():
+    print("Please input the model you want to use:")
+    print("1. current directory")
+    print("2. './data/cpp_dependency' for input and './output/cpp_dependency' for output")
+    print("3. Customizing the working directory")
+    while True:
+        model = input("Please input 1 or 2 or 3: ")
+        model = int(model)
+        if model == 1:
+            input_root0 = "./"
+            output_root0 = "./"
+            break
+        elif model == 2:
+            input_root0 = "./data/cpp_dependency"
+            output_root0 = "./output/cpp_dependency"
+            break
+        elif model == 3:
+            input_root0 = input("Please input the input directory: ")
+            output_root0 = input("Please input the output directory: ")
+            break
+    os.makedirs(input_root0, exist_ok=True)
+    os.makedirs(output_root0, exist_ok=True)
+    return input_root0, output_root0
+
+
 if __name__ == '__main__':
     init_print()
+    input_root, output_root = input_model()
     file_list = {}
     data = {"num": 1}
-    traverse_dir(1, './')
-    traverse_dir(2, './')
-    generate_markdown()
+    traverse_dir(1, input_root)
+    traverse_dir(2, input_root)
+    generate_markdown(output_root)
     end_print()
