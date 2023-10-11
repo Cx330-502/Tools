@@ -1,3 +1,6 @@
+import os
+
+
 def init_print():
     print("Welcome to use Cx330_502's schedule program, the program running time may be long, please be "
           "patient!")
@@ -6,6 +9,7 @@ def init_print():
     print("  ( (__  )  (  (_ \\ (_ \\( (_) )___ |__ \\( (_) )/ _/ ")
     print("   \\___)(_/\\_)(___/(___/ \\___/(___)(___/ \\___/(____)")
     print()
+
 
 def input_model():
     print("Please input the model you want to use:")
