@@ -65,6 +65,7 @@ def generate_markdown(output):
         f.write('# C++ Dependency\n')
         f.write('```mermaid\n')
         f.write('graph LR\n')
+        f.write('classDef hClass fill:#f9f,stroke:#333,stroke-width:2px;\n')
         file_list0 = []
         for file in file_list.values():
             file_list0.append(file)
@@ -73,10 +74,14 @@ def generate_markdown(output):
         for file in file_list0:
             if temp_number == file.number:
                 f.write('\t')
-                f.write(file.code + '(' + file.filename + '); ')
+                f.write(file.code + '(' + file.filename + ')')
             else:
                 f.write('\n')
-                f.write(file.code + '(' + file.filename + '); ')
+                f.write(file.code + '(' + file.filename + ')')
+            if file.type == 0:
+                f.write(':::hClass; ')
+            else:
+                f.write('; ')
             temp_number = file.number
         for file in file_list0:
             for dependency in file.dependencies:
