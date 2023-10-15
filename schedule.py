@@ -535,7 +535,7 @@ if __name__ == '__main__':
     alignment.vert = xlwt.Alignment.VERT_CENTER
     style.alignment = alignment
 
-    wb = load_workbook(os.path.join(input_root, "input.xlsx"))  # 打开excel文件
+    wb = load_workbook(os.path.join(input_root, "sche.xlsx"))  # 打开excel文件
     sheet_names = wb.sheetnames  # 获取工作表名
     if len(sheet_names) != 2:
         print("工作表数量不对")
