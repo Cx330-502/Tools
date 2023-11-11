@@ -17,11 +17,14 @@ def convert_markdown_mermaid_code_to_hexo_mermaid_code(file_path):
         content = f.read()
     flag = False
     for i in range(0, len(content)):
-        if content[i] == '`' and content[i + 1] == '`' and content[i + 2] == '`':
+        if i+10 < len(content) and content[i] == '`' and content[i + 1] == '`' and content[i + 2] == '`' and \
+                content[i + 3] == 'm' and content[i + 4] == 'e' and content[i + 5] == 'r' and \
+                content[i + 6] == 'm' and content[i + 7] == 'a' and content[i + 8] == 'i' and \
+                content[i + 9] == 'd' and content[i + 10] == '\n' and not flag:
             content = content[:i] + '{% mermaid %}' + content[i + 3:]
             flag = True
             break
-        if content[i] == '`' and content[i + 1] == '`' and content[i + 2] == '`' and content[i + 3] == '\n' and flag:
+        if i+2 < len(content) and content[i] == '`' and content[i + 1] == '`' and content[i + 2] == '`' and flag:
             content = content[:i] + '{% endmermaid %}' + content[i + 3:]
             flag = False
             break
